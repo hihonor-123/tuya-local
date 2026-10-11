@@ -1,0 +1,107 @@
+name: Air conditioner
+products:
+  - id: bb8ial3n
+    manufacturer: Zhonghai
+    model: zh003
+entities:
+  - entity: climate
+    dps:
+      - id: 1
+        type: boolean
+        name: hvac_mode
+        mapping:
+          - dps_val: false
+            value: "off"
+          - dps_val: true
+            constraint: mode
+            conditions:
+              - dps_val: cold
+                value: cool
+              - dps_val: hot
+                value: heat
+              - dps_val: wet
+                value: dry
+              - dps_val: wind
+                value: fan_only
+              - dps_val: auto
+                value: heat_cool
+      - id: 2
+        type: integer
+        name: temperature
+        unit: C
+        range:
+          min: 16
+          max: 32
+      - id: 3
+        type: integer
+        name: current_temperature
+        unit: C
+      # Raw unit mode. Kept hidden as it is only used as the constraint
+      # source for hvac_mode above.
+      - id: 4
+        type: string
+        name: mode
+        hidden: true
+      # 5 physical speeds collapsed to the 3 HA standard fan modes.
+      # Duplicate mapping values are used elsewhere in this repo, but the
+      # reverse direction can only drive the first dps_val of each value,
+      # so level_2 and level_4 are not reachable from HA.
+      - id: 5
+        type: string
+        name: fan_mode
+        mapping:
+          - dps_val: auto
+            value: auto
+          - dps_val: level_1
+            value: low
+          - dps_val: level_2
+            value: low
+          - dps_val: level_3
+            value: medium
+          - dps_val: level_4
+            value: medium
+          - dps_val: level_5
+            value: high
+
+  - entity: switch
+    name: Aux heat
+    icon: "mdi:fire"
+    category: config
+    dps:
+      - id: 12
+        type: boolean
+        name: switch
+        optional: true
+
+  - entity: switch
+    name: Sleep mode
+    translation_key: sleep
+    category: config
+    dps:
+      - id: 25
+        type: boolean
+        name: switch
+        optional: true
+
+  - entity: switch
+    name: Dry mode
+    icon: "mdi:water-off"
+    category: config
+    dps:
+      - id: 9
+        type: boolean
+        name: switch
+        optional: true
+
+  # AGENTS.md requires child lock to be a lock entity with the
+  # existing translation_key child_lock, not a switch.
+  # No `name` here: a name equal to the translation key is rejected by
+  # util/untranslated_entities.py ("Entity name hides translation").
+  - entity: lock
+    translation_key: child_lock
+    category: config
+    dps:
+      - id: 14
+        type: boolean
+        name: lock
+        optional: true
