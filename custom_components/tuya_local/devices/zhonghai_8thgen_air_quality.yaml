@@ -1,0 +1,87 @@
+# Zhonghai 8th gen air quality monitor
+# (Zigbee sub device behind a Tuya gateway).
+#
+# The raw air quality dp has only three levels. Values are deliberately kept as
+# level_1/level_2/level_3 instead of being mapped to the translated enum values
+# (excellent/good/moderate/...), because the equivalent cloud entity exposes the
+# same level_1..level_3 options and existing history/automations rely on them.
+name: Air quality monitor
+products:
+  - id: q4yfsmb8
+    model: 8th Gen Air Quality-zh
+entities:
+  - entity: sensor
+    translation_key: air_quality
+    class: enum
+    dps:
+      - id: 1
+        type: string
+        name: sensor
+        mapping:
+          - dps_val: level_1
+            value: level_1
+          - dps_val: level_2
+            value: level_2
+          - dps_val: level_3
+            value: level_3
+  - entity: sensor
+    class: temperature
+    dps:
+      - id: 2
+        type: integer
+        name: sensor
+        unit: C
+        class: measurement
+        mapping:
+          - scale: 10
+            step: 1
+        range:
+          min: -200
+          max: 600
+  - entity: sensor
+    class: humidity
+    dps:
+      - id: 3
+        type: integer
+        name: sensor
+        unit: "%"
+        class: measurement
+        mapping:
+          - scale: 10
+            step: 1
+        range:
+          min: 0
+          max: 1000
+  - entity: sensor
+    class: carbon_dioxide
+    dps:
+      - id: 4
+        type: integer
+        name: sensor
+        unit: ppm
+        class: measurement
+        range:
+          min: 0
+          max: 5000
+  - entity: sensor
+    class: pm25
+    dps:
+      - id: 7
+        type: integer
+        name: sensor
+        unit: ugm3
+        class: measurement
+        range:
+          min: 0
+          max: 999
+  - entity: sensor
+    class: pm10
+    dps:
+      - id: 9
+        type: integer
+        name: sensor
+        unit: ugm3
+        class: measurement
+        range:
+          min: 0
+          max: 999
