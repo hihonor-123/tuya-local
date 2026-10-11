@@ -1,0 +1,127 @@
+#
+# Zigbee sub device behind a Tuya gateway.
+# Only dps 1-3 are reported on an idle poll: the countdown and backlight dps
+# only show up locally after they have been written to once, so those entities
+# are guarded with optional + available + hidden: unavailable.
+name: Triple switch with backlight
+products:
+  - id: nrkzg9dx
+    manufacturer: Zhonghai
+entities:
+  - entity: switch
+    translation_key: switch_x
+    translation_placeholders:
+      x: "1"
+    dps:
+      - id: 1
+        name: switch
+        type: boolean
+  - entity: switch
+    translation_key: switch_x
+    translation_placeholders:
+      x: "2"
+    dps:
+      - id: 2
+        name: switch
+        type: boolean
+  - entity: switch
+    translation_key: switch_x
+    translation_placeholders:
+      x: "3"
+    hidden: unavailable
+    dps:
+      - id: 3
+        name: switch
+        type: boolean
+        optional: true
+      - id: 3
+        type: boolean
+        optional: true
+        name: available
+        mapping:
+          - dps_val: null
+            value: false
+          - value: true
+  - entity: light
+    translation_key: backlight
+    category: config
+    hidden: unavailable
+    dps:
+      - id: 16
+        type: boolean
+        optional: true
+        name: switch
+      - id: 16
+        type: boolean
+        optional: true
+        name: available
+        mapping:
+          - dps_val: null
+            value: false
+          - value: true
+  - entity: time
+    translation_key: timer_x
+    translation_placeholders:
+      x: "1"
+    category: config
+    hidden: unavailable
+    dps:
+      - id: 7
+        type: integer
+        optional: true
+        name: second
+        range:
+          min: 0
+          max: 43200
+      - id: 7
+        type: integer
+        optional: true
+        name: available
+        mapping:
+          - dps_val: null
+            value: false
+          - value: true
+  - entity: time
+    translation_key: timer_x
+    translation_placeholders:
+      x: "2"
+    category: config
+    hidden: unavailable
+    dps:
+      - id: 8
+        type: integer
+        optional: true
+        name: second
+        range:
+          min: 0
+          max: 43200
+      - id: 8
+        type: integer
+        optional: true
+        name: available
+        mapping:
+          - dps_val: null
+            value: false
+          - value: true
+  - entity: time
+    translation_key: timer_x
+    translation_placeholders:
+      x: "3"
+    category: config
+    hidden: unavailable
+    dps:
+      - id: 9
+        type: integer
+        optional: true
+        name: second
+        range:
+          min: 0
+          max: 43200
+      - id: 9
+        type: integer
+        optional: true
+        name: available
+        mapping:
+          - dps_val: null
+            value: false
+          - value: true
