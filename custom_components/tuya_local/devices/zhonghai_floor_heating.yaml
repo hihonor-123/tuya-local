@@ -1,0 +1,27 @@
+name: Floor heating
+products:
+  - id: orpucrfk
+    manufacturer: Zhonghai
+    model: Floor Heating
+entities:
+  - entity: climate
+    dps:
+      - id: 1
+        type: boolean
+        name: hvac_mode
+        mapping:
+          - dps_val: false
+            value: "off"
+          - dps_val: true
+            value: "heat_cool"
+      - id: 16
+        type: integer
+        name: temperature
+        unit: C
+        range:
+          min: 11
+          max: 35
+      - id: 24
+        type: integer
+        name: current_temperature
+        unit: C
