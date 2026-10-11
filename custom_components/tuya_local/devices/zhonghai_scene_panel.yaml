@@ -1,0 +1,121 @@
+# Zhonghai 4 gang scene panel (Zigbee sub device behind a Tuya gateway).
+#
+# Each of the four buttons reports the constant value "scene" on its own
+# dp, with
+# full_poll=False, so they are exposed as four separate event entities - one per
+# dp - instead of a single shared one.
+name: Scene panel
+products:
+  - id: sasjtaqb
+    manufacturer: Tuya
+    model: 4-Gang Smart Scene Panel
+entities:
+  - entity: event
+    name: Button 1
+    class: button
+    dps:
+      - id: 1
+        type: string
+        name: event
+        optional: true
+        mapping:
+          - dps_val: scene
+            value: press
+  - entity: event
+    name: Button 2
+    class: button
+    dps:
+      - id: 2
+        type: string
+        name: event
+        optional: true
+        mapping:
+          - dps_val: scene
+            value: press
+  - entity: event
+    name: Button 3
+    class: button
+    dps:
+      - id: 3
+        type: string
+        name: event
+        optional: true
+        mapping:
+          - dps_val: scene
+            value: press
+  - entity: event
+    name: Button 4
+    class: button
+    dps:
+      - id: 4
+        type: string
+        name: event
+        optional: true
+        mapping:
+          - dps_val: scene
+            value: press
+  # Per button working mode: report a scene event, or toggle the relay.
+  - entity: select
+    name: Mode 1
+    icon: "mdi:tune"
+    category: config
+    dps:
+      - id: 18
+        type: string
+        name: option
+        optional: true
+        mapping:
+          - dps_val: switch_1
+            value: switch
+          - dps_val: scene_1
+            value: scene
+  - entity: select
+    name: Mode 2
+    icon: "mdi:tune"
+    category: config
+    dps:
+      - id: 19
+        type: string
+        name: option
+        optional: true
+        mapping:
+          - dps_val: switch_2
+            value: switch
+          - dps_val: scene_2
+            value: scene
+  - entity: select
+    name: Mode 3
+    icon: "mdi:tune"
+    category: config
+    dps:
+      - id: 20
+        type: string
+        name: option
+        optional: true
+        mapping:
+          - dps_val: switch_3
+            value: switch
+          - dps_val: scene_3
+            value: scene
+  - entity: select
+    name: Mode 4
+    icon: "mdi:tune"
+    category: config
+    dps:
+      - id: 21
+        type: string
+        name: option
+        optional: true
+        mapping:
+          - dps_val: switch_4
+            value: switch
+          - dps_val: scene_4
+            value: scene
+  - entity: light
+    translation_key: backlight
+    category: config
+    dps:
+      - id: 36
+        type: boolean
+        name: switch
+        optional: true
