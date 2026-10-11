@@ -1,0 +1,42 @@
+#
+# Zigbee sub device behind a Tuya gateway. The backlight dp is only reported
+# locally after it has been written to once, so it is guarded with
+# optional + available + hidden: unavailable.
+name: Dual switch with backlight
+products:
+  - id: s6gdv75m
+    manufacturer: Zhonghai
+entities:
+  - entity: switch
+    translation_key: switch_x
+    translation_placeholders:
+      x: "1"
+    dps:
+      - id: 1
+        name: switch
+        type: boolean
+  - entity: switch
+    translation_key: switch_x
+    translation_placeholders:
+      x: "2"
+    dps:
+      - id: 2
+        name: switch
+        type: boolean
+  - entity: light
+    translation_key: backlight
+    category: config
+    hidden: unavailable
+    dps:
+      - id: 16
+        type: boolean
+        optional: true
+        name: switch
+      - id: 16
+        type: boolean
+        optional: true
+        name: available
+        mapping:
+          - dps_val: null
+            value: false
+          - value: true
