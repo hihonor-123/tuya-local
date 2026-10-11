@@ -1,0 +1,44 @@
+name: Fresh air system
+products:
+  - id: kcmvsgmz
+    manufacturer: Zhonghai
+    model: zh003
+entities:
+  # The unit only has on/off, a 3 speed fan and an inlet temperature sensor,
+  # so it is exposed as a climate entity in fan_only mode.
+  - entity: climate
+    dps:
+      # DP1 is the on/off switch. hvac_mode values must be valid HA HVACMode
+      # strings - putting the speed names here makes HA raise ValueError and
+      # the entity becomes "unknown" once switched on.
+      - id: 1
+        name: hvac_mode
+        type: boolean
+        mapping:
+          - dps_val: false
+            value: "off"
+          - dps_val: true
+            value: fan_only
+
+      - id: 9
+        name: current_temperature
+        type: integer
+        unit: C
+
+      # Speed is a separate dp, mapped to the standard HA fan modes.
+      - id: 12
+        name: fan_mode
+        type: string
+        mapping:
+          - dps_val: level1
+            value: low
+          - dps_val: level2
+            value: medium
+          - dps_val: level3
+            value: high
+
+      # Function unknown, only tracked so the dp is accounted for.
+      - id: 101
+        name: unknown_101
+        type: string
+        hidden: true
